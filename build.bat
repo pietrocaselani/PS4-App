@@ -8,7 +8,7 @@ set PKG_TITLE_ID="BREW00100"
 set PKG_CONTENT_ID="IV0000-BREW00100_00-MYHOMEBREW000000"
 
 Rem Libraries to link in
-set libraries=-lc -lkernel -lc++ -lSceVideoOut -lSceSysmodule -lSceFreeType -lSceUserService
+set libraries=-lc -lkernel -lc++ -lSceVideoOut -lSceSysmodule -lSceFreeType -lSceUserService -lSceNetCtl
 
 Rem set extra_flags=
 set extra_flags=-DGRAPHICS_USES_FONT

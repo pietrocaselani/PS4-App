@@ -1,10 +1,11 @@
 #include <sstream>
 #include <iostream>
-#include <orbis/libkernel.h>
-#include <orbis/UserService.h>
 
 #include "graphics.h"
 #include "log.h"
+#include "user.h"
+#include "network.h"
+#include "notification.h"
 
 // Dimensions
 #define FRAME_WIDTH     1920
@@ -31,7 +32,6 @@ int main()
     // No buffering
     setvbuf(stdout, NULL, _IONBF, 0);
 
-    // Create a 2D scene
     DEBUGLOG << "Creating a scene";
 
     auto scene = new Scene2D(FRAME_WIDTH, FRAME_HEIGHT, FRAME_DEPTH);
@@ -39,14 +39,13 @@ int main()
     if (!scene->Init(0xC000000, 2))
     {
         DEBUGLOG << "Failed to initialize 2D scene";
-        for (;;);
+        while(1);
     }
 
     // Set colors
     bgColor = { 0, 0, 0 };
     fgColor = { 255, 255, 255 };
 
-    // Initialize the font faces with arial (must be included in the package root!)
     const char* font = "/app0/assets/fonts/Gontserrat-Regular.ttf";
 
     DEBUGLOG << "Initializing font (" << font << ")";
@@ -57,32 +56,35 @@ int main()
         while (1);
     }
 
-    int userID;
-    char username[32];
+    User loggedInUser;
 
-    // Get the user ID + username
-    OrbisUserServiceInitializeParams param;
-    param.priority = ORBIS_KERNEL_PRIO_FIFO_LOWEST;
-    sceUserServiceInitialize(&param);
-    sceUserServiceGetInitialUser(&userID);
-
-    (void)memset(username, 0, sizeof(username));
-
-    if (sceUserServiceGetUserName(userID, username, sizeof(username) - 1) < 0)
+    if (getLoggedInUser(&loggedInUser) != 0)
     {
-        DEBUGLOG << "Failed to get username!";
+        DEBUGLOG << "Failed to get logged user!";
         return -1;
     }
 
-    std::stringstream userTextStream;
-    userTextStream << "Logged into: " << username << " (ID: 0x" << std::hex << userID << ")";
+    std::stringstream loggedUserTextStream;
+    loggedUserTextStream << "Logged into: " << loggedInUser.username << " (ID: 0x" << std::hex << loggedInUser.userID << ")";
+    
+    std::stringstream networkInfoTextStream;
+    char networkSSID[64];
+
+    if (getNetworkSSID(networkSSID) == 0)
+        networkInfoTextStream << "Network: " << networkSSID;
+    else
+        networkInfoTextStream << "Network: Unknown";
+
+    notification("cxml://psnotification/tex_default_icon_notification", "Welcome %s", loggedInUser.username);
 
     DEBUGLOG << "Entering draw loop...";
 
     // Draw loop
     while (1)
     {
-        scene->DrawText((char*)userTextStream.str().c_str(), fontTxt, 52, 52, bgColor, fgColor);
+        scene->DrawText((char*)loggedUserTextStream.str().c_str(), fontTxt, 26, 42, bgColor, fgColor);
+
+        scene->DrawText((char*)networkInfoTextStream.str().c_str(), fontTxt, 26, 84, bgColor, fgColor);
 
         // Submit the frame buffer
         scene->SubmitFlip(frameID);
