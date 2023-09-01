@@ -29,71 +29,71 @@ int frameID = 0;
 
 int main()
 {
-    // No buffering
-    setvbuf(stdout, NULL, _IONBF, 0);
+	// No buffering
+	setvbuf(stdout, NULL, _IONBF, 0);
 
-    DEBUGLOG << "Creating a scene";
+	DEBUGLOG << "Creating a scene";
 
-    auto scene = new Scene2D(FRAME_WIDTH, FRAME_HEIGHT, FRAME_DEPTH);
+	auto scene = new Scene2D(FRAME_WIDTH, FRAME_HEIGHT, FRAME_DEPTH);
 
-    if (!scene->Init(0xC000000, 2))
-    {
-        DEBUGLOG << "Failed to initialize 2D scene";
-        while(1);
-    }
+	if (!scene->Init(0xC000000, 2))
+	{
+		DEBUGLOG << "Failed to initialize 2D scene";
+		while (1);
+	}
 
-    // Set colors
-    bgColor = { 0, 0, 0 };
-    fgColor = { 255, 255, 255 };
+	// Set colors
+	bgColor = { 0, 0, 0 };
+	fgColor = { 255, 255, 255 };
 
-    const char* font = "/app0/assets/fonts/Gontserrat-Regular.ttf";
+	const char* font = "/app0/assets/fonts/Gontserrat-Regular.ttf";
 
-    DEBUGLOG << "Initializing font (" << font << ")";
+	DEBUGLOG << "Initializing font (" << font << ")";
 
-    if (!scene->InitFont(&fontTxt, font, FONT_SIZE))
-    {
-        DEBUGLOG << "Failed to initialize font '" << font << "'";
-        while (1);
-    }
+	if (!scene->InitFont(&fontTxt, font, FONT_SIZE))
+	{
+		DEBUGLOG << "Failed to initialize font '" << font << "'";
+		while (1);
+	}
 
-    User loggedInUser;
+	User loggedInUser;
 
-    if (getLoggedInUser(&loggedInUser) != 0)
-    {
-        DEBUGLOG << "Failed to get logged user!";
-        return -1;
-    }
+	if (getLoggedInUser(&loggedInUser) != 0)
+	{
+		DEBUGLOG << "Failed to get logged user!";
+		return -1;
+	}
 
-    std::stringstream loggedUserTextStream;
-    loggedUserTextStream << "Logged into: " << loggedInUser.username << " (ID: 0x" << std::hex << loggedInUser.userID << ")";
-    
-    std::stringstream networkInfoTextStream;
-    char networkSSID[64];
+	std::stringstream loggedUserTextStream;
+	loggedUserTextStream << "Logged into: " << loggedInUser.username << " (ID: 0x" << std::hex << loggedInUser.userID << ")";
 
-    if (getNetworkSSID(networkSSID) == 0)
-        networkInfoTextStream << "Network: " << networkSSID;
-    else
-        networkInfoTextStream << "Network: Unknown";
+	std::stringstream networkInfoTextStream;
+	char networkSSID[64];
 
-    notification("cxml://psnotification/tex_default_icon_notification", "Welcome %s", loggedInUser.username);
+	if (getNetworkSSID(networkSSID) == 0)
+		networkInfoTextStream << "Network: " << networkSSID;
+	else
+		networkInfoTextStream << "Network: Unknown";
 
-    DEBUGLOG << "Entering draw loop...";
+	notification("cxml://psnotification/tex_default_icon_notification", "Welcome %s", loggedInUser.username);
 
-    // Draw loop
-    while (1)
-    {
-        scene->DrawText((char*)loggedUserTextStream.str().c_str(), fontTxt, 26, 42, bgColor, fgColor);
+	DEBUGLOG << "Entering draw loop...";
 
-        scene->DrawText((char*)networkInfoTextStream.str().c_str(), fontTxt, 26, 84, bgColor, fgColor);
+	// Draw loop
+	while (1)
+	{
+		scene->DrawText((char*)loggedUserTextStream.str().c_str(), fontTxt, 26, 42, bgColor, fgColor);
 
-        // Submit the frame buffer
-        scene->SubmitFlip(frameID);
-        scene->FrameWait(frameID);
+		scene->DrawText((char*)networkInfoTextStream.str().c_str(), fontTxt, 26, 84, bgColor, fgColor);
 
-        // Swap to the next buffer
-        scene->FrameBufferSwap();
-        frameID++;
-    }
+		// Submit the frame buffer
+		scene->SubmitFlip(frameID);
+		scene->FrameWait(frameID);
 
-    return 0;
+		// Swap to the next buffer
+		scene->FrameBufferSwap();
+		frameID++;
+	}
+
+	return 0;
 }

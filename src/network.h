@@ -4,19 +4,19 @@
 
 int getNetworkSSID(char* ssid)
 {
-    OrbisNetCtlInfo networkInfo;
+	OrbisNetCtlInfo networkInfo;
 
-    int retValue = sceNetCtlInit();
+	int retValue = sceNetCtlInit();
 
-    if (retValue != 0)
-        return retValue;
+	if (retValue != 0)
+		return retValue;
 
-    retValue = sceNetCtlGetInfo(ORBIS_NET_CTL_INFO_SSID, &networkInfo);
+	retValue = sceNetCtlGetInfo(ORBIS_NET_CTL_INFO_SSID, &networkInfo);
 
-    if (retValue == 0)
-        strcpy(ssid, networkInfo.ssid);
+	if (retValue == 0)
+		strcpy(ssid, networkInfo.ssid);
 
-    sceNetCtlTerm();
+	sceNetCtlTerm();
 
-    return retValue;
+	return retValue;
 }

@@ -10,23 +10,23 @@ extern std::stringstream debugLogStream;
 class Log
 {
 public:
-	Log(const std::string &funcName)
+	Log(const std::string& funcName)
 	{
 		debugLogStream << funcName << ": ";
 	}
-	
+
 	template <class T>
-	Log &operator<<(const T &v)
+	Log& operator<<(const T& v)
 	{
 		debugLogStream << v;
 		return *this;
 	}
-	
+
 	~Log()
 	{
 		debugLogStream << std::endl;
 		printf("%s", debugLogStream.str().c_str());
-		
+
 		// Clear the stream
 		debugLogStream.str("");
 	}
