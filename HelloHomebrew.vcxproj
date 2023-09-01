@@ -60,7 +60,8 @@ del /s /q /f $(IntDir)\*.oelf</NMakeCleanCommandLine>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="build.bat" />
-    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="graphics.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="sce_sys\icon0.png" />
@@ -74,6 +75,10 @@ del /s /q /f $(IntDir)\*.oelf</NMakeCleanCommandLine>
     <None Include="sce_module\libc.prx" />
     <None Include="sce_module\libSceFios2.prx" />
     <None Include="sce_sys\about\right.sprx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="graphics.h" />
+    <ClInclude Include="log.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

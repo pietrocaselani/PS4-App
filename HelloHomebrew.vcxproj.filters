@@ -43,7 +43,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="build.bat" />
-    <ClCompile Include="src\main.cpp">
+    <ClCompile Include="graphics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -77,5 +80,13 @@
     <None Include="assets\videos\.gitkeep">
       <Filter>Resource Files\assets\videos</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="graphics.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="log.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
