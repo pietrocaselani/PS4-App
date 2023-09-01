@@ -54,7 +54,7 @@ int main()
     if (!scene->InitFont(&fontTxt, font, FONT_SIZE))
     {
         DEBUGLOG << "Failed to initialize font '" << font << "'";
-        for (;;);
+        while (1);
     }
 
     int userID;
@@ -80,9 +80,9 @@ int main()
     DEBUGLOG << "Entering draw loop...";
 
     // Draw loop
-    for (;;)
+    while (1)
     {
-        scene->DrawText((char*)userTextStream.str().c_str(), fontTxt, 150, 150, bgColor, fgColor);
+        scene->DrawText((char*)userTextStream.str().c_str(), fontTxt, 52, 52, bgColor, fgColor);
 
         // Submit the frame buffer
         scene->SubmitFlip(frameID);

@@ -43,10 +43,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="build.bat" />
-    <ClCompile Include="graphics.cpp">
+    <ClCompile Include="src\graphics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -82,10 +82,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="graphics.h">
+    <ClInclude Include="src\graphics.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="log.h">
+    <ClInclude Include="src\log.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
